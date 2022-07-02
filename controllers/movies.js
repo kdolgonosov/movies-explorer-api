@@ -1,10 +1,7 @@
-// const bcrypt = require('bcryptjs');
 const Movie = require('../models/movie');
 const ValidationError = require('../errors/validationError');
 const ForbiddenError = require('../errors/forbiddenError');
-// const BadTokenError = require('../errors/badTokenError');
 const NotFoundError = require('../errors/notFoundError');
-// const NotUniqueEmailError = require('../errors/notUniqueEmailError');
 const ServerError = require('../errors/serverError');
 
 module.exports.getMovies = (req, res, next) => {
@@ -54,9 +51,6 @@ module.exports.addMovie = (req, res, next) => {
       if (err.name === 'ValidationError') {
         return next(new ValidationError());
       }
-      // if (err.code === 11000) {
-      //   return next(new NotUniqueEmailError());
-      // }
       return next(new ServerError());
     });
 };
@@ -77,12 +71,3 @@ module.exports.removeMovie = (req, res, next) => {
       return next(new ServerError());
     });
 };
-
-// module.exports.getCards = (req, res, next) => {
-//   Card.find({})
-//     .populate('owner')
-//     .then((cards) => res.send({ data: cards }))
-//     .catch(() => {
-//       next(new ServerError());
-//     });
-// };
