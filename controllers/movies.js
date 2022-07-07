@@ -6,7 +6,6 @@ const ServerError = require('../errors/serverError');
 
 module.exports.getMovies = (req, res, next) => {
   Movie.find({ owner: req.user._id })
-    .populate('owner')
     .then((cards) => res.send({ data: cards }))
     .catch(() => {
       next(new ServerError());
@@ -56,7 +55,7 @@ module.exports.addMovie = (req, res, next) => {
 };
 module.exports.removeMovie = (req, res, next) => {
   Movie.findById(req.params.movieId)
-    .orFail(() => next(new NotFoundError()))
+    .orFail(() => next(new NotFoundError('Фильм не найден')))
     .then((movie) => {
       if (!movie.owner.equals(req.user._id)) {
         return next(new ForbiddenError());

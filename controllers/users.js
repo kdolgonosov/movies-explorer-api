@@ -87,6 +87,9 @@ module.exports.updateUserInfo = (req, res, next) => {
       if (err.name === 'ValidationError') {
         return next(new ValidationError());
       }
+      if (err.code === 11000) {
+        return next(new NotUniqueEmailError());
+      }
       return next(new ServerError());
     });
 };

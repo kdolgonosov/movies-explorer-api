@@ -1,7 +1,7 @@
 const express = require('express');
 require('dotenv').config();
 
-const { NODE_ENV, DB_URL } = process.env;
+const { DB_URL } = process.env;
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
@@ -15,11 +15,8 @@ app.use(helmet());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-if (NODE_ENV === 'production') {
-  mongoose.connect(DB_URL);
-} else {
-  mongoose.connect('mongodb://localhost:27017/filmsdb');
-}
+mongoose.connect(DB_URL);
+
 app.use(requestLogger);
 app.use('/', require('./routes'));
 
