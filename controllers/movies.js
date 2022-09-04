@@ -6,7 +6,7 @@ const ServerError = require('../errors/serverError');
 
 module.exports.getMovies = (req, res, next) => {
   Movie.find({ owner: req.user._id })
-    .then((cards) => res.send({ data: cards }))
+    .then((cards) => res.send({ movies: cards }))
     .catch(() => {
       next(new ServerError());
     });
@@ -41,10 +41,7 @@ module.exports.addMovie = (req, res, next) => {
     nameEN,
   })
     .then((movie) => {
-      res.send({
-        nameRU: movie.nameRU,
-        description: movie.description,
-      });
+      res.send(movie);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
